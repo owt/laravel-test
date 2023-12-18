@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/sellingprice', [App\Http\Controllers\CalculationController::class, 'calculateSellingPrice']);
+Route::middleware('auth:sanctum')->get('/sellingprice', [App\Http\Controllers\CalculationController::class, 'calculateSellingPrice']);
