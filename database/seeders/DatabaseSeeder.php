@@ -34,11 +34,13 @@ class DatabaseSeeder extends Seeder
         CoffeeSale::factory()->create([
             'user_id' => $user->id,
             'coffee_product_id' => $goldCoffee->id,
+            'profit_margin' => $goldCoffee->profit_margin,
         ]);
 
         CoffeeSale::factory()->create([
             'user_id' => $user->id,
             'coffee_product_id' => $arabicCoffee->id,
+            'profit_margin' => $arabicCoffee->profit_margin,
             'quantity' => 1,
             'unit_cost' => 1000,
             'selling_price' => 2177,

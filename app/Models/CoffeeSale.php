@@ -15,6 +15,7 @@ class CoffeeSale extends Model
         'quantity',
         'unit_cost',
         'selling_price',
+        'profit_margin',
     ];
 
 }

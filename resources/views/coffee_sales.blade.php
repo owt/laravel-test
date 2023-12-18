@@ -20,6 +20,7 @@
                                     id="coffee_product_id"
                                     name="coffee_product_id"
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    x-on:change="calculateSellingPrice()"
                                 >
                                     <option value="">Select a product</option>
                                     @foreach($coffeeProducts as $product)
@@ -77,15 +78,20 @@
                                 <table class="min-w-full divide-y divide-gray-300">
                                     <thead>
                                         <tr>
-                                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Quantity</th>
+                                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Product</th>
+                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Quantity</th>
                                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Unit Cost</th>
                                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Selling Price</th>
+                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sold At</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
                                         @foreach($coffeeSales as $sale)
                                             <tr>
                                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                                                    {{ $sale->name }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     {{ $sale->quantity }}
                                                 </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -93,6 +99,9 @@
                                                 </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     @money($sale->selling_price, $currency)
+                                                </td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    {{ $sale->created_at->format('Y-m-d H:i') }} 
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -121,7 +130,7 @@
             Alpine.data('coffeeSales', () => ({
                 sellingPrice: formatCurrency(0.00),
                 calculateSellingPrice() {
-                    if(quantity.value == 0 || unitcost.value == 0) {
+                    if(!coffee_product_id.value || quantity.value == 0 || unitcost.value == 0) {
                         return;
                     }
 

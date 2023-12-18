@@ -8,6 +8,7 @@ use App\Http\Requests\CoffeeSaleRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Utils\CalculationUtils;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Log;
 
 class CoffeeSalesController extends Controller
 {
@@ -22,8 +23,15 @@ class CoffeeSalesController extends Controller
 
         // Get all coffee sales for this user
         $coffeeSales = CoffeeSale::where('user_id', auth()->user()->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->join('coffee_products', 'coffee_sales.coffee_product_id', '=', 'coffee_products.id')
+            ->orderBy('coffee_sales.created_at', 'desc')
+            ->get([
+                'coffee_products.name',
+                'coffee_sales.quantity',
+                'coffee_sales.unit_cost',
+                'coffee_sales.selling_price',
+                'coffee_sales.created_at'
+            ]);
 
         return view('coffee_sales', [
             'coffeeProducts' => $coffeeProducts,
@@ -59,10 +67,12 @@ class CoffeeSalesController extends Controller
                 'quantity' => $quantity,
                 'unit_cost' => $unitCost * 100,
                 'selling_price' => $sellingPrice,
+                'profit_margin' => $profitMargin,
             ]);
 
             session()->flash('success', 'Coffee sale saved successfully.');
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $errorBag = new MessageBag();
             $errorBag->add('error', 'There was an error saving the coffee sale.');
             session()->flash('errors', $errorBag);
