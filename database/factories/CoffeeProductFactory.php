@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CoffeeSale>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CoffeeProduct>
  */
-class CoffeeSaleFactory extends Factory
+class CoffeeProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,8 @@ class CoffeeSaleFactory extends Factory
     public function definition()
     {
         return [
-            'quantity' => 1,
-            'unit_cost' => 1000,
-            'selling_price' => 2334,
+            'name' => 'Gold Coffee',
+            'profit_margin' => 0.25,
         ];
     }
 }
