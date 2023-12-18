@@ -22,9 +22,6 @@ class DatabaseSeeder extends Seeder
 
         $coffeeSale = CoffeeSale::factory()->create([
             'user_id' => $user->id,
-            'quantity' => 2,
-            'unit_cost' => 10.00,
-            'selling_price' => 23.33,
         ]);
         
     }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->integer('quantity');
-            $table->decimal('unit_cost', 8, 2);
-            $table->decimal('selling_price', 8, 2);
+            $table->integer('unit_cost');
+            $table->integer('selling_price');
             $table->timestamps();
         });
     }
