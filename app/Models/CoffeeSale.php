@@ -11,6 +11,7 @@ class CoffeeSale extends Model
 
     protected $fillable = [
         'user_id',
+        'coffee_product_id',
         'quantity',
         'unit_cost',
         'selling_price',

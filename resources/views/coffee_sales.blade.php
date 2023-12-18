@@ -14,7 +14,22 @@
                         <x-coffee-sales.success-message class="mb-4" :success="session('success')" />
                         <div x-data="coffeeSales" class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
                             @csrf
-                            <div class="sm:col-span-3">
+                            <div class="sm:col-span-2">
+                                <label for="product_id" class="block text-gray-700 text-sm font-bold mb-2">Product</label>
+                                <select
+                                    id="coffee_product_id"
+                                    name="coffee_product_id"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                >
+                                    <option value="">Select a product</option>
+                                    @foreach($coffeeProducts as $product)
+                                        <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                                            {{ $product->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="sm:col-span-2">
                                 <label for="quantity" class="block text-gray-700 text-sm font-bold mb-2">Quantity</label>
                                 <input
                                     id="quantity"
@@ -26,7 +41,7 @@
                                 />
                             </div>
 
-                            <div class="sm:col-span-3">
+                            <div class="sm:col-span-2">
                                 <label for="unitcost" class="block text-gray-700 text-sm font-bold mb-2">Unit Cost (&pound;)</label>
                                 <input
                                     id="unitcost"
@@ -116,6 +131,7 @@
                     timer = setTimeout(async () => {
                         let response = await axios.get('/api/sellingprice', {
                             params: {
+                                coffee_product_id: coffee_product_id.value,
                                 quantity: quantity.value,
                                 unit_cost: unitcost.value
                             }

@@ -14,6 +14,7 @@ class CoffeeSaleRequest extends FormRequest
     public function rules()
     {
         return [
+            'coffee_product_id' => ['required', 'exists:coffee_products,id'],
             'quantity' => ['required', 'integer', 'min:1'],
             'unit_cost' => ['required', 'numeric', 'min:0.01'],
         ];

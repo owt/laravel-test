@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CoffeeSale;
+use App\Models\CoffeeProduct;
 use App\Http\Requests\CoffeeSaleRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Utils\CalculationUtils;
@@ -15,12 +16,17 @@ class CoffeeSalesController extends Controller
      */
     public function index()
     {
+
+        // Get all coffee products
+        $coffeeProducts = CoffeeProduct::all();
+
         // Get all coffee sales for this user
         $coffeeSales = CoffeeSale::where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
 
         return view('coffee_sales', [
+            'coffeeProducts' => $coffeeProducts,
             'coffeeSales' => $coffeeSales,
             'currency' => 'GBP',
         ]);
@@ -31,11 +37,15 @@ class CoffeeSalesController extends Controller
      */
     public function store(CoffeeSaleRequest $request): RedirectResponse
     {
-        $quantity = $request->quantity;
-        $unitCost = $request->unit_cost; // Number input as decimal
+        $quantity = $request->input('quantity');
+        $unitCost = $request->input('unit_cost'); // Number input as decimal
+        $coffeeProductId = $request->input('coffee_product_id');
         $userId = auth()->user()->id;
         $shippingCost = config('coffeesales.shipping_cost');
-        $profitMargin = config('coffeesales.profit_margin');
+
+        // Get the profit margin for this coffee product
+        $coffeeProduct = CoffeeProduct::find($coffeeProductId);
+        $profitMargin = $coffeeProduct->profit_margin;
 
         // Calculate the selling price
         $cost = CalculationUtils::calculateCost($quantity, $unitCost);
@@ -45,6 +55,7 @@ class CoffeeSalesController extends Controller
         try {
             CoffeeSale::create([
                 'user_id' => $userId,
+                'coffee_product_id' => $coffeeProduct->id,
                 'quantity' => $quantity,
                 'unit_cost' => $unitCost * 100,
                 'selling_price' => $sellingPrice,
@@ -52,6 +63,7 @@ class CoffeeSalesController extends Controller
 
             session()->flash('success', 'Coffee sale saved successfully.');
         } catch (\Exception $e) {
+            dd($e);
             $errorBag = new MessageBag();
             $errorBag->add('error', 'There was an error saving the coffee sale.');
             session()->flash('errors', $errorBag);
@@ -59,6 +71,5 @@ class CoffeeSalesController extends Controller
 
         // Return to the coffee sales index page
         return redirect()->route('coffee.sales');
-
     }   
 }
