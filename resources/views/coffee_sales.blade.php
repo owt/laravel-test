@@ -117,11 +117,11 @@
                         let response = await axios.get('/api/sellingprice', {
                             params: {
                                 quantity: quantity.value,
-                                unitcost: unitcost.value
+                                unit_cost: unitcost.value
                             }
                         });
 
-                        this.sellingPrice = formatCurrency(response?.data?.sellingPrice ?? 0.00);
+                        this.sellingPrice = formatCurrency(response?.data?.sellingPrice / 100 ?? 0.00);
                     }, 250);
                     
                 },

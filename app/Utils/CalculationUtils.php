@@ -4,14 +4,14 @@ namespace App\Utils;
 
 class CalculationUtils 
 {
-    public static function calculateCost(int $quantity, float $unitCost): float
+    public static function calculateCost(int $quantity, float $unitCost): int
     {
-        return \round($quantity * $unitCost, 2, PHP_ROUND_HALF_UP);
+        return ceil($quantity * $unitCost);
     }
 
-    public static function calculateSellingPrice(float $cost, float $shippingCost, float $profitMargin): float
+    public static function calculateSellingPrice(float $cost, float $shippingCost, float $profitMargin): int
     {
         $sellingPrice = ($cost / (1 - $profitMargin)) + $shippingCost;
-        return \round($sellingPrice, 2, PHP_ROUND_HALF_UP);
+        return ceil($sellingPrice);
     }
 }

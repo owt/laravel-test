@@ -33,12 +33,12 @@ class CalculationUtilsTest extends TestCase
     public function testSellingPriceCalculation()
     {
         // Arrange
-        $shippingCost = 10.00;
+        $shippingCost = 1000;
         $profitMargin = 0.25;
 
-        $cost1 = CalculationUtils::calculateCost(1, 10.00);
-        $cost2 = CalculationUtils::calculateCost(2, 20.50);
-        $cost3 = CalculationUtils::calculateCost(5, 12.00);
+        $cost1 = CalculationUtils::calculateCost(1, 1000);
+        $cost2 = CalculationUtils::calculateCost(2, 2050);
+        $cost3 = CalculationUtils::calculateCost(5, 1200);
 
         // Act
         $sellingPrice1 = CalculationUtils::calculateSellingPrice($cost1, $shippingCost, $profitMargin);
@@ -46,8 +46,8 @@ class CalculationUtilsTest extends TestCase
         $sellingPrice3 = CalculationUtils::calculateSellingPrice($cost3, $shippingCost, $profitMargin);
 
         // Assert
-        $this->assertEquals(23.33, $sellingPrice1);
-        $this->assertEquals(64.67, $sellingPrice2);
-        $this->assertEquals(90.00, $sellingPrice3);
+        $this->assertEquals(2334, $sellingPrice1);
+        $this->assertEquals(6467, $sellingPrice2);
+        $this->assertEquals(9000, $sellingPrice3);
     }
 }

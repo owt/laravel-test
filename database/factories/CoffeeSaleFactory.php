@@ -19,7 +19,7 @@ class CoffeeSaleFactory extends Factory
         return [
             'quantity' => 1,
             'unit_cost' => 1000,
-            'selling_price' => 2333,
+            'selling_price' => 2334,
         ];
     }
 }

@@ -8,19 +8,18 @@ use App\Utils\CalculationUtils;
 
 class CalculationController extends Controller
 {
-    const SHIPPING_COST = 10.00;
-    const PROFIT_MARGIN = 0.25;
-    
     public function calculateSellingPrice(Request $request): JsonResponse
     {
-        $quantity = (float) $request->get('quantity');
-        $unitCost = (float) $request->get('unitcost');
+        $quantity = $request->get('quantity');
+        $unitCost = $request->get('unit_cost') * 100;
+        $shippingCost = config('coffeesales.shipping_cost');
+        $profitMargin = config('coffeesales.profit_margin');
 
         $cost = CalculationUtils::calculateCost($quantity, $unitCost);
         $sellingPrice = CalculationUtils::calculateSellingPrice(
             $cost,
-            self::SHIPPING_COST,
-            self::PROFIT_MARGIN
+            $shippingCost,
+            $profitMargin
         );
 
         return response()->json([
