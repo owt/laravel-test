@@ -46,7 +46,7 @@ class CoffeeSalesController extends Controller
     public function store(CoffeeSaleRequest $request): RedirectResponse
     {
         $quantity = $request->input('quantity');
-        $unitCost = $request->input('unit_cost'); // Number input as decimal
+        $unitCost = $request->input('unit_cost') * 100; // Number input as decimal
         $coffeeProductId = $request->input('coffee_product_id');
         $userId = auth()->user()->id;
         $shippingCost = config('coffeesales.shipping_cost');
@@ -58,14 +58,14 @@ class CoffeeSalesController extends Controller
         // Calculate the selling price
         $cost = CalculationUtils::calculateCost($quantity, $unitCost);
         $sellingPrice = CalculationUtils::calculateSellingPrice($cost, $shippingCost, $profitMargin);
-        
+
         // Create a new coffee sale for this user
         try {
             CoffeeSale::create([
                 'user_id' => $userId,
                 'coffee_product_id' => $coffeeProduct->id,
                 'quantity' => $quantity,
-                'unit_cost' => $unitCost * 100,
+                'unit_cost' => $unitCost,
                 'selling_price' => $sellingPrice,
                 'profit_margin' => $profitMargin,
             ]);

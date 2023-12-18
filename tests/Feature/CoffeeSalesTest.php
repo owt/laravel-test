@@ -152,7 +152,7 @@ class CoffeeSalesTest extends TestCase
         // Arrange
         $data = [
             'coffee_product_id' => $this->goldCoffeeProduct->id, // 'Gold Coffee
-            'quantity' => 2,
+            'quantity' => 1,
             'unit_cost' => 10.00,
         ];
 
@@ -166,8 +166,9 @@ class CoffeeSalesTest extends TestCase
         $this->assertDatabaseCount('coffee_sales', 1);
         $this->assertDatabaseHas('coffee_sales', [
             'coffee_product_id' => $this->goldCoffeeProduct->id,
-            'quantity' => '2',
+            'quantity' => '1',
             'unit_cost' => '1000',
+            'selling_price' => '2334',
         ]);
 
 

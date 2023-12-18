@@ -1,5 +1,7 @@
 # Notes/Observations for Part 1
 
+Tagged as v1
+
 - I've used a standard laravel MVC pattern to handle the form submission and data display.
 - For the selling price calculation, I've used the bundled AlpineJS and an API endpoint to calculate the selling price.
 - Shipping cost and profit margin have been added to a config file.
