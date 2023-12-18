@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CoffeeSale;
-use Illuminate\Http\Request;
+use App\Http\Requests\CoffeeSaleRequest;
 use Illuminate\Http\RedirectResponse;
 
 class CoffeeSalesController extends Controller
@@ -13,16 +13,22 @@ class CoffeeSalesController extends Controller
      */
     public function index()
     {
-        return view('coffee_sales');
+        // Get all coffee sales for this user
+        $coffeeSales = CoffeeSale::where('user_id', auth()->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('coffee_sales', [
+            'coffeeSales' => $coffeeSales,
+            'currency' => 'GBP',
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CoffeeSaleRequest $request): RedirectResponse
     {
-        // Validate with the request
-
         // Create a new coffee sale for this user
 
 
