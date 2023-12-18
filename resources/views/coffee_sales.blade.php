@@ -8,10 +8,11 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="px-4 sm:px-6 lg:px-8"> 
+                <div class="px-4 sm:px-6 lg:px-8 mt-4"> 
                     <form method="POST">
                         <x-coffee-sales.form-validation-errors class="mb-4" :errors="$errors" />
-                        <div x-data="coffeeSales" class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+                        <x-coffee-sales.success-message class="mb-4" :success="session('success')" />
+                        <div x-data="coffeeSales" class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
                             @csrf
                             <div class="sm:col-span-3">
                                 <label for="quantity" class="block text-gray-700 text-sm font-bold mb-2">Quantity</label>
