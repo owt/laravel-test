@@ -63,7 +63,6 @@ class CoffeeSalesController extends Controller
 
             session()->flash('success', 'Coffee sale saved successfully.');
         } catch (\Exception $e) {
-            dd($e);
             $errorBag = new MessageBag();
             $errorBag->add('error', 'There was an error saving the coffee sale.');
             session()->flash('errors', $errorBag);
