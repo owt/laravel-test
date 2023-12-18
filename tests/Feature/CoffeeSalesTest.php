@@ -40,11 +40,9 @@ class CoffeeSalesTest extends TestCase
      */
     public function testCoffeeSalesRenders()
     {
-        //Arrange
-        $user = User::factory()->create();
-        
+        //Arrange        
         // Act
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->withSession(['banned' => false])
             ->get('/sales');
 
@@ -129,7 +127,6 @@ class CoffeeSalesTest extends TestCase
     public function testCoffeeSaleValidation()
     {
         // Arrange
-        $user = User::factory()->create();
         $data = [
             'coffee_product_id' => null,
             'quantity' => null,
@@ -137,7 +134,7 @@ class CoffeeSalesTest extends TestCase
         ];
 
         // Act
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->withSession(['banned' => false])
             ->post('/sales', $data);
 
@@ -153,7 +150,6 @@ class CoffeeSalesTest extends TestCase
     public function testCoffeeSaleCanBeRecorded()
     {
         // Arrange
-        $user = User::factory()->create();
         $data = [
             'coffee_product_id' => $this->goldCoffeeProduct->id, // 'Gold Coffee
             'quantity' => 2,
@@ -161,7 +157,7 @@ class CoffeeSalesTest extends TestCase
         ];
 
         // Act
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->withSession(['banned' => false])
             ->post('/sales', $data);
 

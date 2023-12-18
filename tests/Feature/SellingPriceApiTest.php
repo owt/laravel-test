@@ -10,6 +10,15 @@ class SellingPriceApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected User $user;
+
+    public function setup(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
     /**
      * Test the selling price api redirects with no user
      *
@@ -36,10 +45,8 @@ class SellingPriceApiTest extends TestCase
     public function testSellingPriceValidation()
     {
         // Arrange
-        $user = User::factory()->create();
-
         // Act
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->withSession(['banned' => false])
             ->withHeaders([
                 'Accept' => 'application/json',
@@ -47,7 +54,6 @@ class SellingPriceApiTest extends TestCase
             ->get('/api/sellingprice');
 
         // Assert
-        // Test that we have coffee in the db
         $response->assertStatus(422);
     }
 
@@ -59,22 +65,17 @@ class SellingPriceApiTest extends TestCase
     public function testGoldCoffeeSellingPriceCanBeCalcuated()
     {
         // Arrange
-        $user = User::factory()->create();
-
         $goldCoffeeProduct = \App\Models\CoffeeProduct::factory()->create([
             'name' => 'Gold Coffee',
             'profit_margin' => 0.25,
         ]);
 
-        //dd($goldCoffeeProduct->id);
-
         // Act
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->withSession(['banned' => false])
             ->get(sprintf('/api/sellingprice?coffee_product_id=%s&quantity=1&unit_cost=10', $goldCoffeeProduct->id));
 
         // Assert
-        // Test that we have coffee in the db
         $response->assertStatus(200);
         $response->assertJson(['sellingPrice' => 2334]);
     }
@@ -87,22 +88,17 @@ class SellingPriceApiTest extends TestCase
     public function testArabicCoffeeSellingPriceCanBeCalcuated()
     {
         // Arrange
-        $user = User::factory()->create();
-
         $arabicCoffeeProduct = \App\Models\CoffeeProduct::factory()->create([
             'name' => 'Arabic Coffee',
             'profit_margin' => 0.15,
         ]);
 
-        //dd($goldCoffeeProduct->id);
-
         // Act
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->withSession(['banned' => false])
             ->get(sprintf('/api/sellingprice?coffee_product_id=%s&quantity=1&unit_cost=10', $arabicCoffeeProduct->id));
 
         // Assert
-        // Test that we have coffee in the db
         $response->assertStatus(200);
         $response->assertJson(['sellingPrice' => 2177]);
     }
