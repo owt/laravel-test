@@ -46,7 +46,7 @@ class CoffeeSalesTest extends TestCase
         $user = User::factory()->create();
         $data = [
             'quantity' => 2,
-            'unit_cost' => 1000,
+            'unit_cost' => 10.00,
         ];
 
         // Act
