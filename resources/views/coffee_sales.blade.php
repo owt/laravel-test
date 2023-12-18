@@ -8,16 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                
-
                 <div class="px-4 sm:px-6 lg:px-8"> 
-                    
-                
                     <form method="POST">
                         <x-coffee-sales.form-validation-errors class="mb-4" :errors="$errors" />
-                        <div x-data="coffeeSales" class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
+                        <div x-data="coffeeSales" class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
                             @csrf
-                            <div class="sm:col-span-1">
+                            <div class="sm:col-span-3">
                                 <label for="quantity" class="block text-gray-700 text-sm font-bold mb-2">Quantity</label>
                                 <input
                                     id="quantity"
@@ -29,7 +25,7 @@
                                 />
                             </div>
 
-                            <div class="sm:col-span-1">
+                            <div class="sm:col-span-3">
                                 <label for="unitcost" class="block text-gray-700 text-sm font-bold mb-2">Unit Cost (&pound;)</label>
                                 <input
                                     id="unitcost"
@@ -42,17 +38,16 @@
                             </div>
 
                             <div class="sm:col-span-1">
-                                <span class="block text-gray-700 text-sm font-bold mb-2">Selling price</span>
-                                <span id="sellingprice" x-model="sellingPrice">
+                                <div class="text-gray-700 text-sm font-bold mb-2">Selling price</div>
+                                <div id="sellingprice" class="mt-4" x-model="sellingPrice">
                                     <span x-text="sellingPrice"></span>
-                                </span>
+                                </div>
                             </div>
 
                             <div class="sm:col-span-1 mt-6">
-                                
                                 <button 
                                     type="submit"  
-                                    class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 float-right"
                                 >
                                     Record Sale
                                 </button>
