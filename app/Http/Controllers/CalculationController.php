@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Utils\CalculationUtils;
+use App\Http\Requests\SellingPriceCalculationRequest;
 
 class CalculationController extends Controller
 {
-    public function calculateSellingPrice(Request $request): JsonResponse
+    public function calculateSellingPrice(SellingPriceCalculationRequest $request): JsonResponse
     {
         $quantity = $request->get('quantity');
         $unitCost = $request->get('unit_cost') * 100;

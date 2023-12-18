@@ -38,11 +38,36 @@ class SellingPriceApiTest extends TestCase
     {
         // Arrange
         // Act
-        $response = $this->get('/api/sellingprice?quantity=1&unit_cost=10');
+        $response = $this->withHeaders([
+                'Accept' => 'application/json',
+            ])
+            ->get('/api/sellingprice?quantity=1&unit_cost=10');
 
         // Assert
-        $response->assertStatus(302)
-            ->assertRedirectToRoute('login');;
+        $response->assertStatus(401);
+    }
+
+    /**
+     * Test the selling price api validation works
+     *
+     * @return void
+     */
+    public function testSellingPriceValidation()
+    {
+        // Arrange
+        $user = User::factory()->create();
+
+        // Act
+        $response = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->withHeaders([
+                'Accept' => 'application/json',
+            ])
+            ->get('/api/sellingprice');
+
+        // Assert
+        // Test that we have coffee in the db
+        $response->assertStatus(422);
     }
 
     /**

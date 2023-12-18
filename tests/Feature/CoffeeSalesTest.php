@@ -40,6 +40,70 @@ class CoffeeSalesTest extends TestCase
             ->assertRedirectToRoute('login');;
     }
 
+    public function testCoffeeSaleUnitCostValidation()
+    {
+        // Arrange
+        $user = User::factory()->create();
+        $data = [
+            'quantity' => 2,
+            'unit_cost' => null,
+        ];
+
+        // Act
+        $response = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->post('/sales', $data);
+
+        // Assert
+        $response->assertSessionHasErrors([
+            'unit_cost' => 'The unit cost field is required.',
+        ]);
+        $response->assertStatus(302);
+    }
+
+    public function testCoffeeSaleQuantityValidation()
+    {
+        // Arrange
+        $user = User::factory()->create();
+        $data = [
+            'quantity' => null,
+            'unit_cost' => 10,
+        ];
+
+        // Act
+        $response = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->post('/sales', $data);
+
+        // Assert
+        $response->assertSessionHasErrors([
+            'quantity' => 'The quantity field is required.',
+        ]);
+        $response->assertStatus(302);
+    }
+
+    public function testCoffeeSaleValidation()
+    {
+        // Arrange
+        $user = User::factory()->create();
+        $data = [
+            'quantity' => null,
+            'unit_cost' => null,
+        ];
+
+        // Act
+        $response = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->post('/sales', $data);
+
+        // Assert
+        $response->assertSessionHasErrors([
+            'quantity' => 'The quantity field is required.',
+            'unit_cost' => 'The unit cost field is required.',
+        ]);
+        $response->assertStatus(302);
+    }
+
     public function testCoffeeSaleCanBeRecorded()
     {
         // Arrange
